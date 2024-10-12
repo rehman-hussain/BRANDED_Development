@@ -69,9 +69,6 @@ export default function MyTasksSummaryTable({ workOrderLines }) {
         <div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="sm:flex sm:items-center">
-                    <div className="sm:flex-auto">
-                        <h1 className="mt-4 text-base font-semibold leading-6 text-gray-900 dark:text-gray-100">My Tasks Summary</h1>
-                    </div>
                 </div>
             </div>
 

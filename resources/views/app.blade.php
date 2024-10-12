@@ -14,7 +14,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Stylesheets -->
-        <link href="{{ mix('css/MainStyle.css') }}" rel="stylesheet">
+        <link href="{{ mix('css/BRANDED.css') }}" rel="stylesheet">
 
         <!-- Scripts -->
         @routes

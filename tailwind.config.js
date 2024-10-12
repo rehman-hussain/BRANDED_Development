@@ -8,6 +8,7 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
+        './resources/css/**/*.css',
     ],
     darkMode: 'class', // This enables dark mode via a class
     theme: {
@@ -18,8 +19,12 @@ export default {
             backgroundImage: {
                 'branded-theme': "url('/images/theme-bg.png')",
             },
+            // colors: {
+            //     'branded-blue': 'rgb(21, 25, 186)',
+            //     'branded-blue2': 'rgb(16, 20, 132)',
+            //     'gray-700': 'rgb(55, 65, 81)',
+            // },
         },
     },
-
     plugins: [forms],
 };
