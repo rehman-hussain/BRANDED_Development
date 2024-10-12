@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Team;
 
 class User extends Authenticatable
 {
@@ -18,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'userid',
         'email',
         'password',
+        'team_id',
+        'capabilities',
     ];
 
     /**
@@ -44,4 +48,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+
 }

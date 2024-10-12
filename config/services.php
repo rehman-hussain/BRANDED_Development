@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'api' => [
+        'base_url' => env('API_BASE_URL'),
+        'user' => env('FILEMAKER_API_USER'),
+        'password' => env('FILEMAKER_API_PASSWORD'),
+    ],
+
 ];

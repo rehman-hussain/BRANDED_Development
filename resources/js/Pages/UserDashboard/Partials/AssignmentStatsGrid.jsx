@@ -1,5 +1,3 @@
-// resources/js/Components/AssignmentStatsGrid.jsx
-
 import React from 'react';
 
 export default function AssignmentStatsGrid({ overdueCount, todayCount, tomorrowCount, dueLaterCount }) {

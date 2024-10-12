@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\FilemakerAPIController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SaveToMySQL\StoreTeamsAndUsers;
+use App\Http\Controllers\Dashboard\DueDateStatsGridController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,9 +17,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('UserDashboard/Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DueDateStatsGridController::class, 'index'])->name('dashboard');
+});
 
 
 Route::get('/task-details', function () {
@@ -29,5 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Other routes
+Route::get('/test-group-core', [FilemakerAPIController::class, 'testGroupCoreServices']);
+Route::get('/test-production', [FilemakerAPIController::class, 'testProduction']);
+Route::get('/store-team-and-users', [StoreTeamsAndUsers::class, 'storeTeamAndUsers']);
 
 require __DIR__.'/auth.php';

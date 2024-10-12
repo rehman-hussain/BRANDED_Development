@@ -1,25 +1,22 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import { Head } from '@inertiajs/react';
-import MyTasksSummaryTable from '@/Pages/UserDashboard/Partials/MyTasksSummaryTable.jsx';  // Import your table component
-import AssignmentStatsGrid from '@/Pages/UserDashboard/Partials/AssignmentStatsGrid.jsx';  // Import the new stats grid component
+import { Head, usePage } from '@inertiajs/react';
+import MyTasksSummaryTable from '@/Pages/UserDashboard/Partials/MyTasksSummaryTable.jsx';
+import AssignmentStatsGrid from '@/Pages/UserDashboard/Partials/AssignmentStatsGrid.jsx';
 
 const pages = [
     { name: 'Dashboard', href: route('dashboard'), current: true },
 ];
 
 export default function Dashboard() {
-    // Test data for the AssignmentStatsGrid
-    const overdueCount = 5;
-    const todayCount = 2;
-    const tomorrowCount = 3;
-    const dueLaterCount = 10;
+    const { counts, workOrderLines } = usePage().props;  // Pulling the data from props
+    const { overdueCount, todayCount, tomorrowCount, dueLaterCount } = counts;  // Destructuring counts
 
     return (
         <AuthenticatedLayout
             pages={pages}  // Pass the breadcrumb pages
         >
             <Head title="Dashboard" />
-            <div className="py-6 min-h-screen bg-white dark:bg-gray-900">  {/* Full-page background support */}
+            <div className="py-6 min-h-screen bg-white dark:bg-gray-900">
                 <div className="px-4 sm:px-6 lg:px-8">
                     {/* Stats Grid Component */}
                     <AssignmentStatsGrid
@@ -29,9 +26,9 @@ export default function Dashboard() {
                         dueLaterCount={dueLaterCount}
                     />
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow px-5 py-6 sm:px-6 mt-8">
-                        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100"></h3>
+                        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Task Summary</h3>
                         {/* Table Component */}
-                        <MyTasksSummaryTable />
+                        <MyTasksSummaryTable workOrderLines={workOrderLines} />
                     </div>
                 </div>
             </div>

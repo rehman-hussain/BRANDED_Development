@@ -52,7 +52,7 @@ export default function AuthenticatedLayout({ header, pages, children }) {
                         >
                             <Dialog.Panel className="relative flex w-full max-w-xs flex-1 flex-col bg-white dark:bg-gray-800">
                                 <div className="flex items-center justify-between px-4 py-4">
-                                    <img src="/path-to-your-logo.png" className="h-8 w-auto" alt="Logo" />
+                                    <img src="/images/branded-logo.svg" className="h-8 w-auto" alt="Logo" />  {/* Updated logo path */}
                                     <button className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700" onClick={() => setSidebarOpen(false)}>
                                         <XMarkIcon className="h-6 w-6" />
                                     </button>
@@ -82,7 +82,7 @@ export default function AuthenticatedLayout({ header, pages, children }) {
             <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col bg-white dark:bg-gray-800">
                 <div className="flex flex-col flex-grow border-r border-gray-200 dark:border-gray-700 pt-5 bg-white dark:bg-gray-800 overflow-y-auto">
                     <div className="flex items-center justify-between px-4">
-                        <img src="/path-to-your-logo.png" className="h-8 w-auto" alt="Logo" />
+                        <img src="/images/branded-logo.svg" className="h-8 w-auto" alt="Logo" />  {/* Updated logo path */}
                     </div>
                     <nav className="mt-5 flex-1 px-2 space-y-1">
                         {navigation.map((item) => (

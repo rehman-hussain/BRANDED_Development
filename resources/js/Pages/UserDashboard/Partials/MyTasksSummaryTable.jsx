@@ -1,38 +1,15 @@
+// resources/js/Components/MyTasksSummaryTable.jsx
+
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
-
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
-const tempData = [
-    { item_reference: 'IR001', customer_reference: 'CR001', item_description: 'Item 1 description', studio_status: 'Pending' },
-    { item_reference: 'IR002', customer_reference: 'CR002', item_description: 'Item 2 description', studio_status: 'In Progress' },
-    { item_reference: 'IR003', customer_reference: 'CR003', item_description: 'Item 3 description', studio_status: 'Completed' },
-    { item_reference: 'IR004', customer_reference: 'CR004', item_description: 'Item 4 description', studio_status: 'Pending' },
-    { item_reference: 'IR005', customer_reference: 'CR005', item_description: 'Item 5 description', studio_status: 'Completed' },
-    { item_reference: 'IR006', customer_reference: 'CR006', item_description: 'Item 6 description', studio_status: 'In Progress' },
-    { item_reference: 'IR007', customer_reference: 'CR007', item_description: 'Item 7 description', studio_status: 'Pending' },
-    { item_reference: 'IR008', customer_reference: 'CR008', item_description: 'Item 8 description', studio_status: 'Completed' },
-    { item_reference: 'IR009', customer_reference: 'CR009', item_description: 'Item 9 description', studio_status: 'In Progress' },
-    { item_reference: 'IR010', customer_reference: 'CR010', item_description: 'Item 10 description', studio_status: 'Pending' },
-    { item_reference: 'IR011', customer_reference: 'CR011', item_description: 'Item 11 description', studio_status: 'Completed' },
-    { item_reference: 'IR012', customer_reference: 'CR012', item_description: 'Item 12 description', studio_status: 'Pending' },
-    { item_reference: 'IR013', customer_reference: 'CR013', item_description: 'Item 13 description', studio_status: 'In Progress' },
-    { item_reference: 'IR014', customer_reference: 'CR014', item_description: 'Item 14 description', studio_status: 'Completed' },
-    { item_reference: 'IR015', customer_reference: 'CR015', item_description: 'Item 15 description', studio_status: 'Pending' },
-    { item_reference: 'IR016', customer_reference: 'CR016', item_description: 'Item 16 description', studio_status: 'Completed' },
-    { item_reference: 'IR017', customer_reference: 'CR017', item_description: 'Item 17 description', studio_status: 'In Progress' },
-    { item_reference: 'IR018', customer_reference: 'CR018', item_description: 'Item 18 description', studio_status: 'Pending' },
-    { item_reference: 'IR019', customer_reference: 'CR019', item_description: 'Item 19 description', studio_status: 'Completed' },
-    { item_reference: 'IR020', customer_reference: 'CR020', item_description: 'Item 20 description', studio_status: 'In Progress' },
-];
-
-
-export default function MyTasksSummaryTable() {
-    const [sortedLines, setSortedLines] = useState(tempData);  // Using tempData instead of workOrderLines
+export default function MyTasksSummaryTable({ workOrderLines }) {
+    const [sortedLines, setSortedLines] = useState(workOrderLines || []);
     const [sortKey, setSortKey] = useState(null);
-    const [sortOrder, setSortOrder] = useState('asc');  // 'asc' or 'desc'
+    const [sortOrder, setSortOrder] = useState('asc');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);  // This will be controlled by the dropdown
+    const [itemsPerPage, setItemsPerPage] = useState(10);
 
     // Define headers
     const headers = [
@@ -59,7 +36,7 @@ export default function MyTasksSummaryTable() {
         });
 
         setSortedLines(sortedData);
-        setCurrentPage(1);  // Reset to the first page after sorting
+        setCurrentPage(1); // Reset to the first page after sorting
     };
 
     // Handle pagination
@@ -73,7 +50,7 @@ export default function MyTasksSummaryTable() {
 
     const handleItemsPerPageChange = (event) => {
         setItemsPerPage(parseInt(event.target.value));
-        setCurrentPage(1);  // Reset to the first page when items per page change
+        setCurrentPage(1); // Reset to the first page when items per page change
     };
 
     const renderChevronIcon = (key) => {

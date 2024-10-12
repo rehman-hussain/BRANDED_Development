@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('userid')->unique(); // Add a_kp_ID as userid
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->text('capabilities')->nullable(); // Use text to handle multi-line data
+            $table->string('role')->default('User'); // Default role is 'user'
             $table->rememberToken();
             $table->timestamps();
+            $table->foreignId('team_id'); // No foreign key constraint here
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
