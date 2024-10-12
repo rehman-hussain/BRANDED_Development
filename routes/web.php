@@ -3,7 +3,7 @@
 use App\Http\Controllers\API\FilemakerAPIController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveToMySQL\StoreTeamsAndUsers;
-use App\Http\Controllers\Dashboard\DueDateStatsGridController;
+use App\Http\Controllers\Dashboard\UserDashboardSummaryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DueDateStatsGridController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserDashboardSummaryController::class, 'index'])->name('dashboard');
 });
 
 

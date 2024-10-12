@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
-class DueDateStatsGridController extends Controller
+class UserDashboardSummaryController extends Controller
 {
     public function index(FilemakerAPIService $apiService, MyTasksStatsService $statsService, MyTasksSummaryService $workOrderLinesService)
     {
