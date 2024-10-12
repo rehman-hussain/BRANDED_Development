@@ -1,0 +1,42 @@
+.bg-branded-blue {
+    --tw-bg-opacity: 1;
+    background-color: rgb(21, 25, 186);
+}
+
+.bg-branded-blue2 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(16,20,132);
+}
+
+.hover\:bg-branded-blue:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(16,20,132);
+}
+
+.hover\:bg-gray-700:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity))
+}
+
+.text-white {
+    color: rgb(255, 255, 255);
+}
+
+/* GuestLayout.module.css */
+.container {
+    background-image: url('/images/theme-bg.png'); /* Update with the correct path */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    transition: background-image 0.3s ease; /* For smooth dark mode transition (optional) */
+}
+
+/* Optional: Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background-image: url('/images/dark-theme-bg.png'); /* Dark mode image (optional) */
+    }
+}

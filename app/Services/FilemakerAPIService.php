@@ -245,4 +245,70 @@ class FilemakerAPIService
         return $workAssignments;
     }
 
+    public function getWorkOrderLineById($id)
+    {
+        // Ensure token is valid for GroupCoreServices
+        $token = $this->getAuthToken('auth/GroupCoreServices');
+
+        if (!$token) {
+            Log::error('Token not found for GroupCoreServices.');
+            return false;
+        }
+
+        // Build parameters to search by ID (the correct field)
+        $parameters = [
+            'query' => [
+                ['ID' => $id]  // We're now searching by the 'ID' field
+            ],
+            'offset' => '1',
+            'limit' => '1'
+        ];
+
+        // Log the parameters for debugging
+        Log::info('API Request Parameters for Work Order Line by ID', ['parameters' => $parameters]);
+
+        // Get layout prefix from the config (or set default 'ds_')
+        $layoutPrefix = config('services.api.layout_prefix', 'ds_');
+
+        // Construct the layout path for WorksOrdersLines
+        $layoutPath = '/GroupCoreServices/layouts/' . $layoutPrefix . 'WorksOrdersLines/_find';
+
+        // Make API call to retrieve work order lines based on ID
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])
+            ->withoutVerifying()
+            ->post($this->baseUrl . $layoutPath, $parameters);
+
+        // Convert API response to array
+        $apiResponse = $response->json();
+
+        // Log the full response for debugging
+        Log::info('API Response for Work Order Line by ID', ['response' => $apiResponse]);
+
+        // Check if the API call was successful
+        if (isset($apiResponse['messages'][0]['code']) && $apiResponse['messages'][0]['code'] == 0) {
+            $workData = $apiResponse['response']['data'][0]['fieldData'];
+            return [
+                'internal_serial_number' => $workData['a_kf_InternalSerialisedNumber'] ?? null,
+                'item_reference' => $workData['a_kf_ItemReference'] ?? null,
+                'customer_reference' => $workData['d_CustomerReference'] ?? null,
+                'item_description' => $workData['d_ItemDescription'] ?? null,
+                'category1' => $workData['d_Category1'] ?? null,
+                'category2' => $workData['d_Category2'] ?? null,
+                'category3' => $workData['d_Category3'] ?? null,
+                'studio_status' => $workData['d_StudioStatus'] ?? null,
+            ];
+        }
+
+        // Log error if the API call fails
+        Log::error('Failed to get work order line by ID.', [
+            'ID' => $id,
+            'apiResponse' => $apiResponse
+        ]);
+
+        return false;
+    }
+
 }
