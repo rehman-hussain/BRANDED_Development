@@ -32,7 +32,7 @@ class StoreTeamsAndUsers extends Controller
          * Add them 2/3 at a time otherwise will exceed 30 sec time limit
         */
 
-        $teamIds = [28];
+        $teamIds = [9];
         $messages = [];
 
         foreach ($teamIds as $teamId) {
