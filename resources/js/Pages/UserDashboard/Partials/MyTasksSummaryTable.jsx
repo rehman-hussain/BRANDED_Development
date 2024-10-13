@@ -1,5 +1,3 @@
-// resources/js/Components/MyTasksSummaryTable.jsx
-
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';

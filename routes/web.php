@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\UserDashboardSummaryController;
 use App\Http\Controllers\Debugging\TimesheetDebugController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveToMySQL\StoreTeamsAndUsers;
+use App\Http\Controllers\TeamController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,6 +28,9 @@ Route::get('/task-details', function () {
     return Inertia::render('Tasks/TaskDetails');
 })->middleware(['auth'])->name('task.details');
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
