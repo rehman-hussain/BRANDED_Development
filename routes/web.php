@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\API\FilemakerAPIController;
+use App\Http\Controllers\Dashboard\UserDashboardSummaryController;
+use App\Http\Controllers\Debugging\TimesheetDebugController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveToMySQL\StoreTeamsAndUsers;
-use App\Http\Controllers\Dashboard\UserDashboardSummaryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,5 +38,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/test-group-core', [FilemakerAPIController::class, 'testGroupCoreServices']);
 Route::get('/test-production', [FilemakerAPIController::class, 'testProduction']);
 Route::get('/store-team-and-users', [StoreTeamsAndUsers::class, 'storeTeamAndUsers']);
+
+Route::get('/timesheet-debug', [TimesheetDebugController::class, 'showTimesheetLines'])->name('timesheet.debug');
 
 require __DIR__.'/auth.php';

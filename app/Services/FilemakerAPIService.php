@@ -311,4 +311,76 @@ class FilemakerAPIService
         return false;
     }
 
+    /**
+     * Retrieves the timesheet lines assigned to the current user from the Production database.
+     *
+     * @param string $assignedTo The name of the assigned user.
+     * @return array|bool The retrieved timesheet lines or false if failed.
+     */
+    public function getTimesheetLinesForUser($assignedTo)
+    {
+        // Log to see if the function is being called
+        Log::info('Calling getTimesheetLinesForUser', ['assignedTo' => $assignedTo]);
+
+        // Ensure token is valid for Production
+        $token = $this->getAuthToken('auth/Production');
+
+        if (!$token) {
+            Log::error('Failed to get token for Production');
+            return false;
+        }
+
+        // Build query parameters to find records assigned to the current user and where Status is 'With Operator'
+        $parameters = [
+            'query' => [
+                [
+                    'd_AssignedTo' => $assignedTo,
+                    'Status' => '=With Operator'  // Make sure this is checking for the exact match
+                ]
+            ],
+            'limit' => 100,  // Adjust the limit if necessary
+        ];
+
+        // Log the parameters being sent in the API call
+        Log::info('API Call Parameters', ['parameters' => json_encode($parameters, JSON_PRETTY_PRINT)]);
+
+        // Construct the layout path for TimesheetLines
+        $layoutPath = '/Production/layouts/' . config('services.api.layout_prefix', 'ds_') . 'TimesheetLines/_find';
+
+        // Make API call to retrieve timesheet lines based on assigned user and status
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])
+            ->withoutVerifying()
+            ->post($this->baseUrl . $layoutPath, $parameters);
+
+        $apiResponse = $response->json();
+
+        // Log the full API response for debugging
+        Log::info('API Response', ['response' => json_encode($apiResponse, JSON_PRETTY_PRINT)]);
+
+        // Check if the API call was successful
+        if (isset($apiResponse['messages'][0]['code']) && $apiResponse['messages'][0]['code'] == 0) {
+            $timesheetLines = [];
+            foreach ($apiResponse['response']['data'] as $record) {
+                $timesheetLines[] = $record['fieldData']; // Collect all fields from the record
+            }
+
+            // Return both timesheetLines and the full API response for further use
+            return [
+                'timesheetLines' => $timesheetLines,
+                'apiResponse' => $apiResponse, // Return the full API response
+            ];
+        }
+
+        // Log the error if the API call fails
+        Log::error('Failed to get timesheet lines for user.', [
+            'assignedTo' => $assignedTo,
+            'apiResponse' => json_encode($apiResponse, JSON_PRETTY_PRINT)
+        ]);
+
+        return false;
+    }
+
 }
