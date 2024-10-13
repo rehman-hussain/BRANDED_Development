@@ -18,29 +18,28 @@ function classNames(...classes) {
 
 export default function TaskDetailsHeader() {
     return (
-        <div className="">
-            <div className="flex items-center justify-between gap-x-6 py-5">
+        <div className="py-0">
+            <div className="flex items-center gap-x-3 py-4">
                 <div className="min-w-0">
-                    <div className="flex items-start gap-x-3">
-                        {/* Ensure task name turns white in dark mode */}
-                        <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">{project.name}</p>
+                    <div className="flex items-center gap-x-3">
+                        {/* Increased text size for the task name */}
+                        <p className="text-2xl font-bold leading-7 text-gray-900 dark:text-white">{project.name}</p>
                         <p
                             className={classNames(
                                 statuses[project.status],
-                                'mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
+                                'whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold ring-1 ring-inset',  // Increased badge size
                             )}
                         >
                             {project.status}
                         </p>
                     </div>
-                    <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
+                    <div className="mt-2 text-sm leading-5 text-gray-500 dark:text-gray-400">
                         <p className="whitespace-nowrap">
                             Customer Reference: <span>{project.customerReference}</span>
                         </p>
-                        <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
-                            <circle r={1} cx={1} cy={1} />
-                        </svg>
-                        <p className="truncate">Description: {project.description}</p>
+                        <p className="mt-1 truncate"> {/* Added margin to create space between customer reference and description */}
+                            Description: {project.description}
+                        </p>
                     </div>
                 </div>
             </div>
