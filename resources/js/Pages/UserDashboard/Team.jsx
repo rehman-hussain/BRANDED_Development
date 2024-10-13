@@ -10,13 +10,6 @@ export default function Team() {
         { name: 'Team', href: route('team.index'), current: true },  // Breadcrumb for the current page
     ];
 
-    // Helper function to format the last seen time in UTC and adjust to the desired time zone
-    const formatLastSeen = (timestamp) => {
-        if (!timestamp) return 'N/A';
-        const date = new Date(timestamp);
-        return date.toLocaleTimeString('en-GB', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    };
-
     return (
         <AuthenticatedLayout pages={pages}>
             <Head title={`Team - ${teamName}`} />  {/* Dynamic title based on team name */}
@@ -46,7 +39,7 @@ export default function Team() {
                                         </div>
                                     ) : (
                                         <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-                                            Last seen <time>{formatLastSeen(user.last_activity)}</time>
+                                            Last seen <time>{user.last_seen_human}</time>
                                         </p>
                                     )}
                                 </div>
