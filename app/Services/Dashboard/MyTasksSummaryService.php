@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Services\Dashboard;
 
 use App\Services\FilemakerAPIService;
@@ -9,33 +8,32 @@ use Illuminate\Support\Facades\Cache;
 
 class MyTasksSummaryService
 {
-    public function getWorkOrderLines(FilemakerAPIService $apiService)
+    public function getTimesheetLines(FilemakerAPIService $apiService)
     {
         $user = Auth::user();
-        $cacheKey = 'work_order_lines_' . $user->id;
+        $cacheKey = 'timesheet_lines_' . $user->id;
 
         return Cache::remember($cacheKey, 900, function () use ($user, $apiService) {
-            $params = [
-                'd_Team' => $user->team_id,
-                'd_AssignedTo' => $user->name,
-                'Status' => 'With Operator',
-            ];
+            // Fetch the timesheet lines using the Filemaker API service
+            $timesheetLinesResponse = $apiService->getTimesheetLinesForUser($user->name);
 
-            $workAssignments = $apiService->dashboardCurrentWorkAssignment($params);
-            $relatedWorkOrders = [];
-
-            foreach ($workAssignments as $assignment) {
-                $lineItemId = $assignment['line_item_id'] ?? null;
-
-                if ($lineItemId) {
-                    $workOrderAssignment = $apiService->getWorkOrderLineById($lineItemId);
-                    if ($workOrderAssignment) {
-                        $relatedWorkOrders[] = $workOrderAssignment;
-                    }
-                }
+            // Ensure that timesheetLines is available in the response
+            if (!$timesheetLinesResponse || !isset($timesheetLinesResponse['timesheetLines'])) {
+                return [];
             }
 
-            return $relatedWorkOrders;
+            // Map only the relevant fields you need for the table
+            $timesheetLines = collect($timesheetLinesResponse['timesheetLines'])->map(function ($line) {
+                return [
+                    'a_kf_ItemReference' => $line['TimesheetsLines_WorksOrdersLines::a_kf_ItemReference'] ?? null,
+                    'd_Description' => $line['d_Description'] ?? null,
+                    'd_EntryType' => $line['d_EntryType'] ?? null,
+                    'd_Priority' => $line['d_Priority'] ?? null,
+                    'Status' => $line['Status'] ?? null,
+                ];
+            });
+
+            return $timesheetLines->toArray();
         });
     }
 }

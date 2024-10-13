@@ -13,10 +13,11 @@ export default function MyTasksSummaryTable({ workOrderLines }) {
 
     // Define headers
     const headers = [
-        { name: 'Item Reference', key: 'item_reference', visible: true },
-        { name: 'Customer Reference', key: 'customer_reference', visible: 'sm' },
-        { name: 'Item Description', key: 'item_description', visible: 'lg' },
-        { name: 'Studio Status', key: 'studio_status', visible: true },
+        { name: 'Item Reference', key: 'a_kf_ItemReference', visible: true },
+        { name: 'Description', key: 'd_Description', visible: 'lg' },
+        { name: 'Entry Type', key: 'd_EntryType', visible: true },
+        { name: 'Priority', key: 'd_Priority', visible: true },
+        { name: 'Status', key: 'Status', visible: true },
     ];
 
     // Calculate total pages
@@ -103,16 +104,19 @@ export default function MyTasksSummaryTable({ workOrderLines }) {
                                 <td
                                     className="px-3 py-4 text-sm font-medium text-gray-900 dark:text-gray-100 max-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400"
                                 >
-                                    {line.item_reference}
+                                    {line.a_kf_ItemReference}
                                 </td>
                                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400 sm:table-cell max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-                                    {line.customer_reference}
+                                    {line.d_Description}
                                 </td>
                                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400 lg:table-cell max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
-                                    {line.item_description}
+                                    {line.d_EntryType}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {line.studio_status}
+                                    {line.d_Priority}
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                    {line.Status}
                                 </td>
                                 <td className="px-3 py-4 text-right text-sm font-medium">
                                     <Link

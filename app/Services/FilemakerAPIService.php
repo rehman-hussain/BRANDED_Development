@@ -335,7 +335,7 @@ class FilemakerAPIService
             'query' => [
                 [
                     'd_AssignedTo' => $assignedTo,
-                    'Status' => '=With Operator'  // Make sure this is checking for the exact match
+                    'Status' => 'With Operator'  // Exact match
                 ]
             ],
             'limit' => 100,  // Adjust the limit if necessary

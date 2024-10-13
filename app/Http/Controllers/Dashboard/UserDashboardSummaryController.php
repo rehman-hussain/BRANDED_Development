@@ -12,16 +12,16 @@ use Inertia\Inertia;
 
 class UserDashboardSummaryController extends Controller
 {
-    public function index(FilemakerAPIService $apiService, MyTasksStatsService $statsService, MyTasksSummaryService $workOrderLinesService)
+    public function index(FilemakerAPIService $apiService, MyTasksStatsService $statsService, MyTasksSummaryService $timesheetLinesService)
     {
-        // Get counts and work order lines
+        // Get counts and timesheet lines
         $counts = $this->dueDateStats($apiService, $statsService);
-        $workOrderLines = $workOrderLinesService->getWorkOrderLines($apiService); // Fetch work order lines
+        $timesheetLines = $timesheetLinesService->getTimesheetLines($apiService); // Fetch timesheet lines
 
         // Render the updated Dashboard view located in 'UserDashboard/Dashboard'
         return Inertia::render('UserDashboard/Dashboard', [
             'counts' => $counts,
-            'workOrderLines' => $workOrderLines,
+            'workOrderLines' => $timesheetLines, // Update variable to reflect timesheet lines
         ]);
     }
 
@@ -33,9 +33,8 @@ class UserDashboardSummaryController extends Controller
         $cacheDuration = config('cache.durations.work_assignment', 900);
         $workAssignments = Cache::remember($cacheKey, $cacheDuration, function () use ($user, $apiService) {
             $params = [
-                'd_Team' => $user->team_id,
-                'd_AssignedTo' => $user->name,
-                'Status' => 'With Operator',
+                'd_AssignedTo' => $user->name, // Use the current user's name
+                'Status' => 'With Operator',   // Ensure you're filtering by 'With Operator'
             ];
 
             $assignments = $apiService->dashboardCurrentWorkAssignment($params);
@@ -51,4 +50,5 @@ class UserDashboardSummaryController extends Controller
 
         return $counts; // Return only the counts data
     }
+
 }
