@@ -13,7 +13,7 @@ export default function Team() {
     return (
         <AuthenticatedLayout pages={pages}>
             <Head title={`Team - ${teamName}`} />  {/* Dynamic title based on team name */}
-            <div className="py-6 min-h-screen bg-white dark:bg-gray-900">
+            <div className="py-6 bg-white dark:bg-gray-900">
                 <div className="px-4 sm:px-6 lg:px-8">
                     <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Team: {teamName}</h1>
 

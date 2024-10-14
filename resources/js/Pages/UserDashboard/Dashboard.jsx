@@ -16,7 +16,7 @@ export default function Dashboard() {
             pages={pages}  // Pass the breadcrumb pages
         >
             <Head title="Dashboard" />
-            <div className="py-6 min-h-screen bg-white dark:bg-gray-900">
+            <div className="py-6 bg-white dark:bg-gray-900">
                 <div className="px-4 sm:px-6 lg:px-8">
                     {/* Stats Grid Component */}
                     <AssignmentStatsGrid
