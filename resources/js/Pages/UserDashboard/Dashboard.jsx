@@ -7,33 +7,45 @@ import MyTasksSummaryTableSkeleton from '@/Pages/UserDashboard/Partials/MyTasksS
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const pages = [{ name: 'Dashboard', href: route('dashboard'), current: true }];
-
+// Component
 export default function Dashboard() {
+    // Retrieve the user from Inertia's usePage() props
+    const { auth } = usePage().props;  // auth contains the user info (id, name, etc.)
+    const userId = auth.user.id;  // Use userId for caching
+
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState({
-        counts: null,
-        workOrderLines: null,
+    const [data, setData] = useState(() => {
+        // Try to retrieve cached data specific to this user from sessionStorage
+        const cachedData = sessionStorage.getItem(`dashboardData_${userId}`);
+        return cachedData ? JSON.parse(cachedData) : { counts: null, workOrderLines: null };
     });
 
     useEffect(() => {
-        // Fetch the dashboard data via AJAX
-        axios.get(route('dashboard'))
-            .then((response) => {
-                setData(response.data);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error fetching dashboard data:', error);
-                setIsLoading(false);
-            });
-    }, []);
+        // Fetch data only if it hasn't been cached for this user
+        if (!data.counts && !data.workOrderLines) {
+            setIsLoading(true);
+            axios.get(route('dashboard'))
+                .then((response) => {
+                    setData(response.data);
+                    // Cache the data with a user-specific key
+                    sessionStorage.setItem(`dashboardData_${userId}`, JSON.stringify(response.data));
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching dashboard data:', error);
+                    setIsLoading(false);
+                });
+        } else {
+            // Data is already cached, skip loading state
+            setIsLoading(false);
+        }
+    }, [userId, data]);  // Listen for changes to userId
 
     const { counts, workOrderLines } = data;
     const { overdueCount, todayCount, tomorrowCount, dueLaterCount } = counts || {};
 
     return (
-        <AuthenticatedLayout pages={pages}>
+        <AuthenticatedLayout pages={[{ name: 'Dashboard', href: route('dashboard'), current: true }]}>
             <Head title="Dashboard" />
             <div className="py-6 bg-white dark:bg-gray-900">
                 <div className="px-4 sm:px-6 lg:px-8">
@@ -63,4 +75,3 @@ export default function Dashboard() {
         </AuthenticatedLayout>
     );
 }
-
